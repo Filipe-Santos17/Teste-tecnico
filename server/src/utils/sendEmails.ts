@@ -1,0 +1,18 @@
+import nodemailer, { SendMailOptions }  from "nodemailer"
+import { env } from "@/env"
+
+const transporter = nodemailer.createTransport({
+    host: env.EMAIL_HOST,
+    port: env.EMAIL_PORT,
+    secure: true,
+    auth:{
+        user: env.EMAIL_AUTH_USER,
+        pass: env.EMAIL_AUTH_PASS,
+    }
+})
+
+interface iSendEmailObj extends SendMailOptions {}
+
+export async function sendEmail(dataEmail: iSendEmailObj){
+    await transporter.sendMail(dataEmail) //accepted
+}

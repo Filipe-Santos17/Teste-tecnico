@@ -1,0 +1,33 @@
+@PORT=3001
+@URL=http://localhost:{{PORT}}/api/
+
+##### USERS
+#Name - CreateUser
+POST {{URL}}user/create HTTP/1.1
+content-type: application/json
+
+{
+    "name": "filipe", 
+    "email": "filipemas@gmail.com", 
+    "password": "Test123@"
+}
+
+###
+#Name - GetUsers
+GET {{URL}}users/
+content-type: application/json
+
+###
+#Name - DeleteUser
+DELETE {{URL}}user/delete/
+content-type: application/json
+
+##### LOGIN
+#Name - Login
+POST {{URL}}login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "filipemas@gmail.com", 
+    "password": "Test123@"
+}
