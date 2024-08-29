@@ -6,7 +6,7 @@ import { userType } from "@/middlewares/pipes/userPipe";
 
 export default {
     async createUser(req: Request, res: Response){
-        const { email, name, password } = req.body as userType
+        const { email, name, password, two_factory } = req.body as userType
 
         try{
             const userAlreadyExist = await db('users').where({
@@ -23,7 +23,8 @@ export default {
                 id: randomUUID(),
                 name,
                 email: email.toLowerCase(),
-                password: encryptedPassword
+                password: encryptedPassword,
+                two_factory,
             })
 
             return res.status(201).json({ msg: 'User registered successfully' })

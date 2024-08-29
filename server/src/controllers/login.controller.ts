@@ -1,23 +1,12 @@
 import { Request, Response } from "express"
 import { db } from "@/database/connect";
 import bcrypt from "bcrypt"
-import {z} from "zod"
-import jwt from "jsonwebtoken"
-import { env } from "@/env";
 import { sendEmail } from "@/utils/sendEmails";
 import { randomUUID } from "crypto";
 import { generateAleatoryHash } from "@/utils/generateAleatoryHash";
 import calculateDiffDate from "@/utils/calculateDiffDate";
-import { validDataLogin } from "@/middlewares/pipes/loginPipe";
-
-interface iSafesCodes {
-    id: string,
-    time: string,
-    email: string,
-    hash: number,
-}
-
-const safesCode: iSafesCodes[] = []
+import { validDataLogin, validDataLoginSecondStep } from "@/middlewares/pipes/loginPipe";
+import { generateToken } from "@/utils/generateToken";
 
 export default {
     async loginUser(req: Request, res:Response) {
@@ -30,62 +19,66 @@ export default {
                 return res.status(400).json({ msg: "Incorrect email or password" });
             }
 
-            const comparePassword = await bcrypt.compare(password, getUser.senha);
+            const comparePassword = await bcrypt.compare(password, getUser.password);
 
             if(!comparePassword){
                 return res.status(400).json({ msg:"Incorrect email or password" })
             }
 
-            const hash = generateAleatoryHash()
+            if(getUser.two_factory){
+                const hash = generateAleatoryHash()
 
-            await db('hashs').insert({ 
-                id: randomUUID(),
-                email,
-                hash,
-            })
+                await db('hashs').insert({ 
+                    id: randomUUID(),
+                    email,
+                    hash,
+                })
+    
+                await sendEmail({
+                    to: email,
+                    subject: "2º Etapa de Validação",
+                    html: `Este é o seu codigo de segurança: <b>${hash}</b>`
+                })
 
-            sendEmail({
-                from: `NTI Secult <${email}>`,
-                to: "filipe.msantos@salvador.ba.gov.br",
-                subject: "2º Etapa de Validação",
-                html: `Este é o seu codigo de segurança <b>${hash}</b>`
-            })
-            
-            const msgReturn = {
-                email,
-                validateNextStep: "ok"
+                const msgReturn = {
+                    email,
+                    validateNextStep: "ok"
+                }
+    
+                return res.status(200).json(msgReturn)
+            }   
+
+            const { id, name } = getUser
+
+            const token = generateToken(id)
+
+            const userData = {
+                user: {
+                    id,
+                    name,
+                    email,
+                },
+                token
             }
 
-            return res.status(200).json(msgReturn)
+            return res.json(userData).status(200)
         }catch(error){
             console.error(error)
             return res.status(500).json({msg: `Server error`})
         }
     },
 
-    //Após o login user
-    async segundaEtapaValidacao(req: Request, res:Response){
-        const validateUserLoginSecondStep = z.object({
-            email: z.string().email(),
-            hash: z.number().min(6),
-        })
-
-        const hashData = validateUserLoginSecondStep.safeParse(req.body)
-        
-        if (!hashData.success) {
-            return res.status(403).json({ msg: "Dados Incompletos" });
-        }   
-
-        const { email, hash } = hashData.data
+    async secondValidationStep(req: Request, res:Response){
+        const { email, hash } = req.body as validDataLoginSecondStep
         
         try{
             const isValidHashAndEmail = await db('hashs').where({ 
-                email: email.toLowerCase(),
+                email,
                 hash 
             }).first()
 
             if(!isValidHashAndEmail){
-                return res.status(400).json({ msg: "Dados Incorretos" });
+                return res.status(400).json({ msg: "Incorrect Data" });
             }
 
             //Valida a diferença das datas
@@ -94,35 +87,32 @@ export default {
             const timeDiference = calculateDiffDate(timeStart, timeNow)
             const maxTimeDiferenceAllowed = 15
 
+            await db('hashs').where({ email, hash }).delete()
+
             if(timeDiference && timeDiference >= maxTimeDiferenceAllowed){
-                await db('hashs').where({ 
-                    email: email.toLowerCase(),
-                    hash 
-                }).delete()
-
-                return res.status(400).json({ msg: "Diferença de tempo ultrapasada" });
+                return res.status(400).json({ msg: "Time difference exceeded" });
             }
 
-            const usuario = await db('usuarios').where({ email_usuario: email }).first()
+            const user = await db('users').where({ email }).first()
 
-            const tokenJWT = jwt.sign(
-                { id: usuario.user_id }, //Payload
-                env.JWT_SECRET, // chave secreta do JWT -- ???
-                { expiresIn: '8h' }
-            )
+            if (!user) {
+                return res.status(400).json({ msg: "Incorrect email" });
+            }
 
-            const retornoDataUser = {
+            const token = generateToken(user.id)
+
+            const dataUser = {
                 usuario: {
-                    id: usuario.user_id,
-                    nome: usuario.nome_usuario,
-                    email: usuario.email_usuario
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
                 },
-                token: tokenJWT
+                token
             }
 
-            return res.status(200).json(retornoDataUser);
+            return res.status(200).json(dataUser);
         } catch(e){
-            return res.status(500).json({ msg: "Error no servidor" });
+            return res.status(500).json({ msg: "Server error" });
         }
     }
 }

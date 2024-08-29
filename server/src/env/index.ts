@@ -16,7 +16,6 @@ const zodSchema = z.object({
   DB_NAMEDB: z.string(),
   PORT: z.coerce.number().default(3003),
   PRIVATE_SECRET: z.string(),
-  PUBLIC_SECRET: z.string(),
   EMAIL_HOST: z.string(),
   EMAIL_PORT: z.coerce.number(),
   EMAIL_AUTH_USER: z.string().email(),

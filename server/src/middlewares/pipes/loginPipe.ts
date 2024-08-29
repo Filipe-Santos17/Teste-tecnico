@@ -7,7 +7,13 @@ const validateUserLoginInfo = z.object({
     password: z.string().regex(regexPassword),
 })
 
+const validateUserLoginSecondStepInfo = z.object({
+    email: z.string().email(),
+    hash: z.number().min(6),
+})
+
 export type validDataLogin = z.infer<typeof validateUserLoginInfo>
+export type validDataLoginSecondStep = z.infer<typeof validateUserLoginSecondStepInfo>
 
 export function validUserLogin(req: Request, res: Response, next: NextFunction){
     const userData = validateUserLoginInfo.safeParse(req.body)
@@ -23,3 +29,16 @@ export function validUserLogin(req: Request, res: Response, next: NextFunction){
     next()
 }
 
+export function validUserLoginSecondStep(req: Request, res: Response, next: NextFunction){
+    const hashData = validateUserLoginSecondStepInfo.safeParse(req.body)   
+    
+    if (!hashData.success) {
+        return res.status(403).json({ msg: "Incorrect Data" });
+    }   
+
+    const { email } = hashData.data
+
+    req.body.email = email.toLowerCase()
+
+    next()
+}

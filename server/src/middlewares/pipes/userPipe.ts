@@ -6,6 +6,7 @@ const userDataSchema = z.object({
     name: z.string(), 
     email: z.string().email(), 
     password: z.string().regex(regexPassword),
+    two_factory: z.boolean().default(false)
 })
 
 const userIdSchema = z.object({
@@ -20,6 +21,8 @@ export function validUserData(req: Request, res: Response, next: NextFunction){
     if(!userData.success){
         return res.status(400).json({ msg: "The following fields must be filled in: name, email, password" })
     }
+
+    req.body.two_factory = Boolean(userData.data.two_factory)
 
     next()
 }

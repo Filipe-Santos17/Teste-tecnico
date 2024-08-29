@@ -5,7 +5,7 @@ import controllerLogin from "@/controllers/login.controller";
 import controllerTodo from "@/controllers/todo.controller";
 
 import { validUserData, validUserId } from "@/middlewares/pipes/userPipe";
-import { validUserLogin } from "@/middlewares/pipes/loginPipe";
+import { validUserLogin, validUserLoginSecondStep } from "@/middlewares/pipes/loginPipe";
 
 const rotas = Router();
 
@@ -16,7 +16,12 @@ rotas.put("/user/modify/:id", validUserId, controllerUser.modifyUser)
 rotas.delete("/user/delete/:id", validUserId, controllerUser.deleteUser)
 
 rotas.post("/login", validUserLogin, controllerLogin.loginUser)
-rotas.post("/login/second-step", controllerLogin.loginUser)
+rotas.post("/login/second-step", validUserLoginSecondStep, controllerLogin.secondValidationStep)
 
+rotas.get("/todos/", controllerTodo.getAllTodos)
+rotas.get("/user/:id", validUserId, controllerTodo.getOneTodo)
+rotas.post("/user/create", validUserData, controllerTodo.createTodo)
+rotas.put("/user/modify/:id", validUserId, controllerTodo.modifyTodo)
+rotas.delete("/user/delete/:id", validUserId, controllerTodo.deleteTodo)
 
 export default rotas

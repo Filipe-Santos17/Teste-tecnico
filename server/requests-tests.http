@@ -13,6 +13,18 @@ content-type: application/json
 }
 
 ###
+#Name - CreateUserWithTwoFactory
+POST {{URL}}user/create HTTP/1.1
+content-type: application/json
+
+{
+    "name": "filipe marques", 
+    "email": "filipemard@gmail.com", 
+    "password": "Test123@##",
+    "two_factory": true
+}
+
+###
 #Name - GetUsers
 GET {{URL}}users/
 content-type: application/json
@@ -30,4 +42,24 @@ content-type: application/json
 {
     "email": "filipemas@gmail.com", 
     "password": "Test123@"
+}
+
+###
+#Name - LoginWithTwoFactory
+POST {{URL}}login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "filipemard@gmail.com", 
+    "password": "Test123@##"
+}
+
+###
+#Name - LoginSecondStep
+POST {{URL}}login/second-step HTTP/1.1
+content-type: application/json
+
+{
+    "email": "filipemard@gmail.com", 
+    "hash": 321011
 }

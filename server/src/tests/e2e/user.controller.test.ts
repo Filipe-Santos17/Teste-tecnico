@@ -4,6 +4,7 @@ import app from "@/app";
 import { db } from "@/database/connect";
 import { env } from "@/env";
 import request from "supertest";
+import bcrypt from "bcrypt"
 
 describe("User Testes", () => {
     beforeAll(() => {
@@ -74,9 +75,9 @@ describe("User Testes", () => {
 
         const userDB = await db('users').select().where({ email: user.email }).first()
 
-        expect(user.password === userDB.password).toBe(false) //encrypt password
+        expect(user.password === userDB!.password).toBe(false) //encrypt password
 
-        const myUser = await request(app).get(`/api/user/${userDB.id}`).expect(200)
+        const myUser = await request(app).get(`/api/user/${userDB!.id}`).expect(200)
 
         expect(myUser.body).to.have.property('id').that.is.a("string")
         expect(myUser.body).to.have.property('email').that.is.a("string")
@@ -95,6 +96,6 @@ describe("User Testes", () => {
 
         const userDB = await db('users').select().where({ email: user.email }).first()
 
-        await request(app).delete(`/api/user/delete/${userDB.id}`).expect(200)
+        await request(app).delete(`/api/user/delete/${userDB!.id}`).expect(200)
     })
 })

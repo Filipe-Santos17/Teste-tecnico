@@ -14,5 +14,13 @@ const transporter = nodemailer.createTransport({
 interface iSendEmailObj extends SendMailOptions {}
 
 export async function sendEmail(dataEmail: iSendEmailObj){
-    await transporter.sendMail(dataEmail) //accepted
+    try{
+        await transporter.sendMail({
+            from: `Todo Project <${env.EMAIL_HOST}>`,
+            ...dataEmail
+        })
+    } catch(e){
+        console.error(e)
+        throw new Error("Email not send")
+    }
 }
