@@ -1,8 +1,10 @@
 @PORT=3001
 @URL=http://localhost:{{PORT}}/api/
+@TOKEN = {{Login.response.body.token}}
+@USER_ID = {{Login.response.body.user.id}}
 
 ##### USERS
-#Name - CreateUser
+# @name CreateUser
 POST {{URL}}user/create HTTP/1.1
 content-type: application/json
 
@@ -13,7 +15,7 @@ content-type: application/json
 }
 
 ###
-#Name - CreateUserWithTwoFactory
+# @name CreateUserWithTwoFactory
 POST {{URL}}user/create HTTP/1.1
 content-type: application/json
 
@@ -25,17 +27,17 @@ content-type: application/json
 }
 
 ###
-#Name - GetUsers
+# @name GetUsers
 GET {{URL}}users/
 content-type: application/json
 
 ###
-#Name - DeleteUser
+# @name DeleteUser
 DELETE {{URL}}user/delete/
 content-type: application/json
 
 ##### LOGIN
-#Name - Login
+# @name Login
 POST {{URL}}login HTTP/1.1
 content-type: application/json
 
@@ -45,7 +47,7 @@ content-type: application/json
 }
 
 ###
-#Name - LoginWithTwoFactory
+# @name LoginWithTwoFactory
 POST {{URL}}login HTTP/1.1
 content-type: application/json
 
@@ -55,7 +57,7 @@ content-type: application/json
 }
 
 ###
-#Name - LoginSecondStep
+# @name LoginSecondStep
 POST {{URL}}login/second-step HTTP/1.1
 content-type: application/json
 
@@ -63,3 +65,45 @@ content-type: application/json
     "email": "filipemard@gmail.com", 
     "hash": 321011
 }
+
+##### TODO
+# @name GetAllTodos
+GET {{URL}}todos/{{USER_ID}} HTTP/1.1
+content-type: application/json
+Authorization: {{TOKEN}}
+
+###
+# @name GetOneTodo
+GET {{URL}}todos/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+content-type: application/json
+Authorization: {{TOKEN}}
+
+###
+# @name CreateTodo
+POST {{URL}}todos/create/ HTTP/1.1
+content-type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "task": "complete udemy course", 
+    "complete": true,
+    "user_id": "{{USER_ID}}"
+}
+
+###
+# @name ModifyTodo
+PUT {{URL}}todos/modify/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+content-type: application/json
+Authorization: {{TOKEN}}
+
+{
+    "task": "complete udemy course", 
+    "complete": false,
+    "user_id": "{{USER_ID}}"
+}
+
+###
+# @name DeleteTodo
+DELETE  {{URL}}todos/delete/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+content-type: application/json
+Authorization: {{TOKEN}}

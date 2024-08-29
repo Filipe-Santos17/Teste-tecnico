@@ -4,11 +4,10 @@ import app from "@/app";
 import { db } from "@/database/connect";
 import { env } from "@/env";
 import request from "supertest";
-import bcrypt from "bcrypt"
 
 describe("User Testes", () => {
     beforeAll(() => {
-        app.listen(env.PORT, () => console.log("Start testes Users"))
+        app.listen(env.PORT, () => console.log("Start testes Login"))
     })
     
     beforeEach(() => {
@@ -65,19 +64,34 @@ describe("User Testes", () => {
     })
 
     it("should be possible make login in two factory", async () => {
+        const email = "filipemas@gmail.com"
+
         await request(app).post("/api/user/create/").send({
             name: "filipe", 
-            email: "filipemas@gmail.com", 
+            email, 
             password: "Test123@",
             two_factory: true,
         }).expect(201)
 
-        const loginTwoFact = await request(app).post("/api/login/").send({
-            email: "filipemas@gmail.com", 
+        const loginTwoFactStepOne = await request(app).post("/api/login/").send({
+            email, 
             password: "Test123@"
         }).expect(200)
 
-        expect(loginTwoFact.body).to.have.property('email').that.is.a("string")
-        expect(loginTwoFact.body).to.have.property('validateNextStep').that.is.a("string")
+        expect(loginTwoFactStepOne.body).to.have.property('email').that.is.a("string")
+        expect(loginTwoFactStepOne.body).to.have.property('validateNextStep').that.is.a("string")
+
+        const hash = await db("hashs").select("hash").where({ email }).first()
+
+        const loginTwoFactStepTwo = await request(app).post("/api/login/second-step").send({
+            email, 
+            hash: +hash!.hash
+        }).expect(200)
+        
+        expect(loginTwoFactStepTwo.body).to.have.property('user').that.is.a("object")
+        expect(loginTwoFactStepTwo.body).to.have.property('token').that.is.a("string")
+        expect(loginTwoFactStepTwo.body.user).to.have.property('id').that.is.a("string")
+        expect(loginTwoFactStepTwo.body.user).to.have.property('name').that.is.a("string")
+        expect(loginTwoFactStepTwo.body.user).to.have.property('email').that.is.a("string")
     })
 })

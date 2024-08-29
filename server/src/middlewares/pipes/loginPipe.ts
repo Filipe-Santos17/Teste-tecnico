@@ -1,4 +1,4 @@
-import {z} from "zod"
+import { z } from "zod"
 import { Request, Response, NextFunction } from "express"
 import regexPassword from "@/utils/regexPassword"
 

@@ -6,6 +6,8 @@ import controllerTodo from "@/controllers/todo.controller";
 
 import { validUserData, validUserId } from "@/middlewares/pipes/userPipe";
 import { validUserLogin, validUserLoginSecondStep } from "@/middlewares/pipes/loginPipe";
+import { validTodoData, validTodoIdAndUserParams, validIdUserParam } from "@/middlewares/pipes/todoPipe";
+import { validUserJWTToken } from "@/middlewares/auth/authToken";
 
 const rotas = Router();
 
@@ -18,10 +20,10 @@ rotas.delete("/user/delete/:id", validUserId, controllerUser.deleteUser)
 rotas.post("/login", validUserLogin, controllerLogin.loginUser)
 rotas.post("/login/second-step", validUserLoginSecondStep, controllerLogin.secondValidationStep)
 
-rotas.get("/todos/", controllerTodo.getAllTodos)
-rotas.get("/user/:id", validUserId, controllerTodo.getOneTodo)
-rotas.post("/user/create", validUserData, controllerTodo.createTodo)
-rotas.put("/user/modify/:id", validUserId, controllerTodo.modifyTodo)
-rotas.delete("/user/delete/:id", validUserId, controllerTodo.deleteTodo)
+rotas.get("/todos/:userId", validUserJWTToken, validIdUserParam, controllerTodo.getAllTodos)
+rotas.get("/todos/:userId/:id", validUserJWTToken, validTodoIdAndUserParams, controllerTodo.getOneTodo)
+rotas.post("/todos/create/", validUserJWTToken, validTodoData, controllerTodo.createTodo)
+rotas.put("/todos/modify/:userId/:id", validUserJWTToken, validTodoIdAndUserParams, validTodoData, controllerTodo.modifyTodo)
+rotas.delete("/todos/delete/:userId/:id", validUserJWTToken, validTodoIdAndUserParams, controllerTodo.deleteTodo)
 
 export default rotas

@@ -102,7 +102,7 @@ export default {
             const token = generateToken(user.id)
 
             const dataUser = {
-                usuario: {
+                user: {
                     id: user.id,
                     name: user.name,
                     email: user.email,
@@ -114,5 +114,9 @@ export default {
         } catch(e){
             return res.status(500).json({ msg: "Server error" });
         }
+    },
+
+    async changePassword(req: Request, res:Response){
+
     }
 }
