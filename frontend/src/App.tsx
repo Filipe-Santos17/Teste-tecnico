@@ -1,9 +1,7 @@
+import ProjectRoutes from "./routes"
+
 function App() {
-  return (
-    <>
-    vite
-    </>
-  )
+  return <ProjectRoutes/>
 }
 
 export default App
