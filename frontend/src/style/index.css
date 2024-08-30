@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Login */
+form{
+  box-shadow: 0px, 24px, 32px, #d2d7dd40;
+}
+
+form .forget-password {
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1.25rem;
+  letter-spacing: -.05rem;
+  color: #50626f;
+  width: 100%;
+  outline: none;
+}
+
+form :is(.forget-password:hover, .forget-password:focus){
+  text-decoration: underline;
+}
+
+/*button*/
+.btn.secondary {
+  @apply text-primary bg-primary opacity-10;
+}
+
+.btn.secondary:hover {
+  @apply text-purpleLigth bg-primary opacity-100;
+}
+
+  /* &.danger {
+    background: $red;
+  }
+} */
