@@ -31,6 +31,7 @@ const useFetch = () => {
       json = undefined;
       
       if (err instanceof Error) {
+        if( err.message === "Failed to fetch") err.message = "Servidor Fora do Ar"
         setErro(err.message);
       } else {
         setErro("Unknown Error")

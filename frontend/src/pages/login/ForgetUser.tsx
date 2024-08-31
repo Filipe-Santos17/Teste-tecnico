@@ -1,72 +1,65 @@
-import { FormEvent, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { FormEvent, useState } from "react"
+import { Link } from "react-router-dom"
 
 import useForm from "@/hooks/useForm"
 import useFetch from "@/hooks/useFetch"
 
 import InputBox from "@/components/generics/InputBox"
-import LoginBackground from "@/components/login/LoginBackground"
 import Button from "@/components/generics/Button"
 import ErroMsg from "@/components/generics/ErrorMsg"
 
-import { loginUser } from "@/helpers/ApiRoutes"
-import CookiesWork from "@/utils/cookies"
+import { changePass } from "@/helpers/ApiRoutes"
 
-export default function LoginUser() {
+export default function ForgetUser() {
   const emailForm = useForm('email')
-  const passwordForm = useForm('password')
+  const [sendEmail, setSendEmail] = useState(false)
   const { load, erro, request } = useFetch()
-  const navigate = useNavigate()
-  const cookies = CookiesWork()
-
-  useEffect(() => {
-    window.document.title = 'Login Todo'
-  }, [])
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault()
 
-    if (emailForm.validate() && passwordForm.validate()) {
-      const { url, options } = loginUser({
+    if (emailForm.validate()) {
+      const { url, options } = changePass({
         email: emailForm.value,
-        password: passwordForm.value,
       })
 
-      const { json, response } = await request(url, options)
+      const { response } = await request(url, options)
 
-      if ((await response).status == 200) {
-        if (json.token) {
-          cookies.setCookie('token-todo-api', json.token)
-          cookies.setCookie('token-todo-user', JSON.stringify(json.userData))
-          navigate('/')
-        }
+      if ((await response).status == 200) {//json.status ok também
+        setSendEmail(true)
       }
     }
   }
 
   return (
-    <section className="grid w-screen h-screen overflow-y-hidden grid-cols-2">
-      <LoginBackground />
-      <section className="bg-gray60 flex items-center justify-center">
-        <form onSubmit={handleSubmitForm} className="h-max bg-white border border-gray60 rounded-lg flex flex-col gap-4 w-[428px] p-8">
+    <>
+      {!sendEmail ?
+        <form onSubmit={handleSubmitForm} className="form-login">
           <div className="flex items-start gap-4 flex-col">
-            <h1 className="text-2xl text-[#000112]">Fazer Login</h1>
-            <p className="text-base text-[#364b5a]">
-              Seja bem-vindo(a)!  Insira seu e-mail e senha para entrar em sua conta.
-            </p>
+            <h1 className="text-2xl text-[#000112]">Alterar Senha</h1>
+            <p className="text-base text-[#364b5a]">Insira seu e-mail e enviaremos o link para alterar sua senha.</p>
           </div>
           <div className="flex items-start gap-6 flex-col">
-            <InputBox labelName="Usuário" idName="email" type="text" placeholder="Insira seu email" {...emailForm} autoFocus/>
-            <InputBox labelName="Senha" idName="password" type="password" placeholder="Insira sua senha " {...passwordForm} />
+            <InputBox labelName="Email" idName="email" type="text" placeholder="Insira seu email" autoFocus {...emailForm} />
             {erro && <ErroMsg erro={erro} />}
             <div className="flex items-start gap-2 flex-col">
-              <Link to="forget/" className="forget-password">Esqueceu a senha ?</Link>
-              <Link to="create/" className="forget-password">Não possuo cadastro</Link>
+              <Link to="/login" className="forget-password">Voltar ao login</Link>
+              <Link to="/login/create" className="forget-password">Não possuo cadastro</Link>
             </div>
           </div>
-          {load ? <Button content="Carregando..." disabled /> : <Button content="Entrar" typeBtn="submit" btnStyle="!w-full text-white !rounded" />}
+          {load ? <Button content="Carregando..." disabled /> : <Button content="Enviar" typeBtn="submit" />}
         </form>
-      </section>
-    </section>
+        :
+        <div className="form-login">
+          <div className="flex items-start gap-4 flex-col">
+            <h1>Email enviado com sucesso</h1>
+            <p>Confira sua caixa de email, em alguns instantes o link para para a alterção irá ser enviado, por favor consulte sua caixa de span.</p>
+          </div>
+          <Link to={'/login'}>
+            <Button content="Voltar ao login" />
+          </Link>
+        </div>
+      }
+    </>
   )
 }

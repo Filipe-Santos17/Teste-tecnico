@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 /* Login */
-form{
+.form-login{
+  @apply h-max bg-white border border-gray60 rounded-lg flex flex-col gap-4 w-[428px] p-8;
   box-shadow: 0px, 24px, 32px, #d2d7dd40;
 }
 
-form .forget-password {
+.form-login .forget-password {
   font-weight: 400;
   font-size: .75rem;
   line-height: 1.25rem;
@@ -17,7 +18,7 @@ form .forget-password {
   outline: none;
 }
 
-form :is(.forget-password:hover, .forget-password:focus){
+.form-login :is(.forget-password:hover, .forget-password:focus){
   text-decoration: underline;
 }
 

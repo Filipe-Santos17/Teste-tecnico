@@ -1,6 +1,6 @@
-import { typeCreateUser, typeUserLogin } from "@/@types/dataJson"
+import { typeCreateUser, typeUserLogin, typeChangePassword } from "@/@types/dataJson"
 
-const url = import.meta.env.MODE === "development" ? 'http://localhost:3001/api/' : import.meta.env.ROUTE_BACKEND
+const url = import.meta.env.MODE === "development" ? 'http://localhost:3001/api/' : import.meta.env.VITE_ROUTE_BACKEND
 
 /*Rotas de Login */
 export function loginUser(data: typeUserLogin) {
@@ -29,7 +29,7 @@ export function createUser(data: typeCreateUser) {
   }
 }
 
-export function changePass(data: object) {
+export function changePass(data: typeChangePassword) {
   return {
     url: `${url}user/forget-password`,
     options: {
