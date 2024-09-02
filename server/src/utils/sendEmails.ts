@@ -15,10 +15,12 @@ interface iSendEmailObj extends SendMailOptions {}
 
 export async function sendEmail(dataEmail: iSendEmailObj){
     try{
-        await transporter.sendMail({
-            from: `Todo Project <${env.EMAIL_HOST}>`,
-            ...dataEmail
-        })
+        if(env.NODE_ENV!=="test"){
+            await transporter.sendMail({
+                from: `Todo Project <${env.EMAIL_HOST}>`,
+                ...dataEmail
+            })
+        }
     } catch(e){
         console.error(e)
         throw new Error("Email not send")

@@ -11,7 +11,7 @@ import { validUserJWTToken } from "@/middlewares/auth/authToken";
 
 const rotas = Router();
 
-rotas.get("/users/", controllerUser.gets)
+//rotas.get("/users/", controllerUser.gets)
 rotas.get("/user/:id", validUserId, controllerUser.getUser)
 rotas.post("/user/create", validUserData, controllerUser.createUser)
 rotas.put("/user/modify/:id", validUserId, controllerUser.modifyUser)

@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "test:unit": "vitest --dir src/tests/unit",
     "test:e2e": "vitest run --dir src/tests/e2e",
     "knex": "node --no-warnings --import tsx ./node_modules/.bin/knex"
   },

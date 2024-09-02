@@ -64,7 +64,7 @@ describe("User Testes", () => {
     })
 
     it("should be possible make login in two factory", async () => {
-        const email = "filipemas@gmail.com"
+        const email = "filipemard@gmail.com"
 
         await request(app).post("/api/user/create/").send({
             name: "filipe", 

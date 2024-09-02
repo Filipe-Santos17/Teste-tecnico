@@ -34,11 +34,11 @@ export default {
         }
     },
 
-    async gets(req: Request, res: Response){
+    /*async gets(req: Request, res: Response){
         const users = await db('users').select()
 
         return res.json(users).status(200)
-    },
+    },*/
 
     async getUser(req: Request, res: Response){
         const { id } = req.params
