@@ -1,8 +1,6 @@
 import { useCallback, useState } from "react";
-import { DataJson } from "@/@types/dataJson";
 
 const useFetch = () => {
-  const [data, setData] = useState({});
   const [load, setLoad] = useState(false);
   const [erro, setErro] = useState<boolean | string>(false);
 
@@ -11,9 +9,9 @@ const useFetch = () => {
     json: T,
   }
 
-  const request = useCallback(async (url: string, options: object): Promise<returnF<DataJson>> => {
+  const request = useCallback(async<T>(url: string, options: object): Promise<returnF<T>> => {
     let response: Response | undefined;
-    let json: DataJson | undefined;
+    let json: T | undefined;
 
     try {
       setErro(false);
@@ -38,7 +36,6 @@ const useFetch = () => {
       }
 
     } finally {
-      setData(json ? json : {});
       setLoad(false);
 
       return { response, json };
@@ -46,7 +43,6 @@ const useFetch = () => {
   }, []);
 
   return {
-    data,
     load,
     erro,
     request

@@ -7,12 +7,14 @@ import { generateAleatoryHash } from "@/utils/generateAleatoryHash";
 import calculateDiffDate from "@/utils/calculateDiffDate";
 import { validDataLogin, validDataLoginSecondStep } from "@/middlewares/pipes/loginPipe";
 import { generateToken } from "@/utils/generateToken";
+import { env } from "@/env";
+import jwt from "jsonwebtoken";
 
 export default {
-    async loginUser(req: Request, res:Response) {
+    async loginUser(req: Request, res: Response) {
         const { email, password } = req.body as validDataLogin
 
-        try{
+        try {
             const getUser = await db('users').where({ email }).first()
 
             if (!getUser) {
@@ -21,19 +23,19 @@ export default {
 
             const comparePassword = await bcrypt.compare(password, getUser.password);
 
-            if(!comparePassword){
-                return res.status(400).json({ msg:"Incorrect email or password" })
+            if (!comparePassword) {
+                return res.status(400).json({ msg: "Incorrect email or password" })
             }
 
-            if(getUser.two_factory){
+            if (getUser.two_factory) {
                 const hash = generateAleatoryHash()
 
-                await db('hashs').insert({ 
+                await db('hashs').insert({
                     id: randomUUID(),
                     email,
                     hash,
                 })
-    
+
                 await sendEmail({
                     to: email,
                     subject: "2º Etapa de Validação",
@@ -44,9 +46,9 @@ export default {
                     email,
                     validateNextStep: "ok"
                 }
-    
+
                 return res.status(200).json(msgReturn)
-            }   
+            }
 
             const { id, name } = getUser
 
@@ -62,22 +64,22 @@ export default {
             }
 
             return res.json(userData).status(200)
-        }catch(error){
+        } catch (error) {
             console.error(error)
-            return res.status(500).json({msg: `Server error`})
+            return res.status(500).json({ msg: `Server error` })
         }
     },
 
-    async secondValidationStep(req: Request, res:Response){
+    async secondValidationStep(req: Request, res: Response) {
         const { email, hash } = req.body as validDataLoginSecondStep
-        
-        try{
-            const isValidHashAndEmail = await db('hashs').where({ 
+
+        try {
+            const isValidHashAndEmail = await db('hashs').where({
                 email,
-                hash 
+                hash
             }).first()
 
-            if(!isValidHashAndEmail){
+            if (!isValidHashAndEmail) {
                 return res.status(400).json({ msg: "Incorrect Data" });
             }
 
@@ -89,7 +91,7 @@ export default {
 
             await db('hashs').where({ email, hash }).delete()
 
-            if(timeDiference && timeDiference >= maxTimeDiferenceAllowed){
+            if (timeDiference && timeDiference >= maxTimeDiferenceAllowed) {
                 return res.status(400).json({ msg: "Time difference exceeded" });
             }
 
@@ -111,12 +113,26 @@ export default {
             }
 
             return res.status(200).json(dataUser);
-        } catch(e){
+        } catch (e) {
             return res.status(500).json({ msg: "Server error" });
         }
     },
 
-    async changePassword(req: Request, res:Response){
+    async changePassword(req: Request, res: Response) {
         //https://www.youtube.com/watch?v=Zwdv9RllPqU&t=1s
+    },
+
+    async validUserToken(req: Request, res: Response) {
+        const { email } = req.body
+
+        try {
+            const isUserValid = await db("users").select("email","id","name").where({ email }).first();
+
+            if (isUserValid) {
+                return res.status(200).json({ status: "ok", user: isUserValid });
+            }
+        } catch (error) {
+            res.status(403).json({ status: "error", ErroMsg: "invalid token" });
+        }
     }
 }

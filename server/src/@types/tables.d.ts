@@ -12,7 +12,8 @@ declare module 'knex/types/tables' {
 
     todos: {
       id: string,
-      task: string,
+      task_title: string,
+      task_description: string,
       complete: boolean,
       user_id: string,
     },

@@ -8,7 +8,7 @@ export default {
         const { userId: user_id } = req.params as todoParam
 
         try{
-            const todos = await db('todos').select("id","complete","task").where({
+            const todos = await db('todos').select("id","complete","task_description","task_title").where({
                 user_id
             })
             
@@ -23,7 +23,7 @@ export default {
         const { id, userId: user_id } = req.params as todoParam
 
         try{
-            const oneTodo = await db('todos').select("id","complete","task").where({
+            const oneTodo = await db('todos').select("id","complete","task_description", "task_title").where({
                 id, user_id
             }).first()
             
@@ -39,12 +39,13 @@ export default {
     },
 
     async createTodo(req: Request, res: Response) {
-        const { task, complete, user_id } = req.body as todoType
+        const { task_title, task_description, complete, user_id } = req.body as todoType
         
         try {
             await db("todos").insert({
                 id: randomUUID(),
-                task,
+                task_title, 
+                task_description,
                 complete,
                 user_id,
             })
@@ -57,12 +58,13 @@ export default {
     },
 
     async modifyTodo(req: Request, res: Response) { 
-        const { task, complete, user_id } = req.body as todoType
+        const { task_title, task_description, complete, user_id } = req.body as todoType
         const { id } = req.params as todoParam
         
         try {
             await db("todos").where({ id, user_id }).update({
-                task,
+                task_title, 
+                task_description,
                 complete,
             })
 

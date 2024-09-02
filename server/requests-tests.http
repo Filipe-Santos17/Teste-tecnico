@@ -85,7 +85,8 @@ content-type: application/json
 Authorization: {{TOKEN}}
 
 {
-    "task": "complete udemy course", 
+    "task_title": "complete udemy course", 
+    "task_description":"complete udemy course",
     "complete": true,
     "user_id": "{{USER_ID}}"
 }

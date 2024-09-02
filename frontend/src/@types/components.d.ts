@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, InputHTMLAttributes } from "react";
+import { iTodo } from "./dataJson";
 
 export interface InputBoxType extends InputHTMLAttributes<HTMLInputElement> {
     labelName: string,
@@ -14,3 +15,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   typeBtn?: "submit" | "button"
 }
 
+export type TypeChangeModalState = { 
+  changeModal: Dispatch<SetStateAction<boolean>> 
+  currentTodo: iTodo
+}

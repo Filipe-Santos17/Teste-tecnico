@@ -10,6 +10,7 @@ import ErroMsg from "@/components/generics/ErrorMsg"
 
 import { loginUser } from "@/helpers/ApiRoutes"
 import CookiesWork from "@/utils/cookies"
+import { iDataJsonLogin } from "@/@types/dataJson"
 
 export default function LoginUser() {
   const emailForm = useForm('email')
@@ -31,13 +32,13 @@ export default function LoginUser() {
         password: passwordForm.value,
       })
 
-      const { json, response } = await request(url, options)
+      const { json, response } = await request<iDataJsonLogin>(url, options)
 
       if ((await response).status == 200) {
         if (json.token) {
           cookies.setCookie('token-todo-api', json.token)
           cookies.setCookie('token-todo-user', JSON.stringify(json.user))
-          navigate('/')
+          navigate('/user')
         }
       }
     }

@@ -19,6 +19,7 @@ rotas.delete("/user/delete/:id", validUserId, controllerUser.deleteUser)
 
 rotas.post("/login", validUserLogin, controllerLogin.loginUser)
 rotas.post("/login/second-step", validUserLoginSecondStep, controllerLogin.secondValidationStep)
+rotas.post("/login/valid-token", validUserJWTToken, controllerLogin.validUserToken);
 
 rotas.get("/todos/:userId", validUserJWTToken, validIdUserParam, controllerTodo.getAllTodos)
 rotas.get("/todos/:userId/:id", validUserJWTToken, validTodoIdAndUserParams, controllerTodo.getOneTodo)

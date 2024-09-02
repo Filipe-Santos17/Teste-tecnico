@@ -18,14 +18,10 @@ const useForm = (type: TypesFormKeys) => {
   const [error, setError] = useState<string | boolean>("");
 
   function validate(value: string) {
-    if (type === '') {
-      return true;
-    } 
-    
-    if (value.length === 0) {
+    if (type === "" && value.length === 0) {
       setError("Preencha um valor");
       return false;
-    } else if (typesForm[type] && !typesForm[type].regex.test(value)) {
+    } else if (type !== "" && typesForm[type] && !typesForm[type].regex.test(value)) {
       setError(typesForm[type].msg);
       return false;
     } else {
