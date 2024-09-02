@@ -10,8 +10,8 @@ const useFetch = () => {
   }
 
   const request = useCallback(async<T>(url: string, options: object): Promise<returnF<T>> => {
-    let response: Response | undefined;
-    let json: T | undefined;
+    let response: Response;
+    let json: T;
 
     try {
       setErro(false);
@@ -20,7 +20,7 @@ const useFetch = () => {
       response = await fetch(url, options);
       json = await response.json();
 
-      if (response.ok === false) {
+      if (!response.ok) {
         if (json && json.msg) {
           setErro(json.msg)
         }

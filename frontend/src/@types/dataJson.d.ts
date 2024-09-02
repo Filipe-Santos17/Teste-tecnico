@@ -25,6 +25,10 @@ export interface iTodo {
     complete: boolean,
 }
 
+export interface iTodoWithUserId extends iTodo {
+    user_id: string
+}
+
 type typeTodo = Omit<iTodo, "id">
 
 export type typeGetAllDataTodo = {
@@ -44,7 +48,7 @@ export interface iDeleteTodo {
 }
 
 export interface iModifyTodo extends iDeleteTodo {
-    todo: iTodo
+    todo: iTodoWithUserId
 }
 
 //Login

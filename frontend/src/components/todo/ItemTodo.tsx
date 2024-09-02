@@ -25,7 +25,7 @@ export default function ItemTodo({ todo, handleDeleteTodo, handleCompleteTodo, o
                         title="Edit?"
                     />
                     <BsCheckLg
-                        className="cursor-pointer text-3xl hover:text-green-500"
+                        className={`cursor-pointer text-3xl ${todo.complete ? "text-green-500": ""}  hover:text-green-500`}
                         onClick={() => handleCompleteTodo(todo.id, todo)}
                         title="Complete?"
                     />

@@ -19,8 +19,6 @@ export type todoParam = z.infer<typeof todoAndUserIdParamsSchema>
 export function validTodoData(req: Request, res: Response, next: NextFunction){
     const todoData = todoDataSchema.safeParse(req.body)
 
-    console.log(todoData.error)
-
     if(!todoData.success){
         return res.status(400).json({ msg: "The following fields must be filled in: task_title, task_description, complete, user_id" })
     }

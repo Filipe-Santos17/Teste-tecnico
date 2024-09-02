@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import Button from "@/components/generics/Button";
+import { useEffect } from "react";
 
 export default function HomePage(){
+    useEffect(() => {
+        window.document.title = 'Home Todo'
+    }, [])
+
     return(
         <section className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
             <h1 className="text-white text-6xl uppercase font-bold">Todo Project</h1>

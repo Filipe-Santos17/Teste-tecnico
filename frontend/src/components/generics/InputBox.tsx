@@ -11,7 +11,7 @@ export default function InputBox({ labelName, value, idName, error, ...others }:
       </label>
       
       <input className={`bg-white rounded h-10 w-full p-3 outline-none border border-gray40 font-medium
-      text-black text-sm leading-3 ${error && "!border-red"}`} id={idName} name={idName} {...others}/>
+      text-black text-sm leading-3 ${error && "!border-red"}`} value={value} id={idName} name={idName} {...others}/>
 
       {error && <ErroMsg erro={error}/>}
     </div>

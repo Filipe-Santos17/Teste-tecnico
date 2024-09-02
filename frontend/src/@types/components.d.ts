@@ -18,4 +18,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export type TypeChangeModalState = { 
   changeModal: Dispatch<SetStateAction<boolean>> 
   currentTodo: iTodo
+  setCurrentTodo: React.Dispatch<React.SetStateAction<iTodo | null>>
+  handleEditTodo(id: string, todo: iTodo): Promise<void>
 }

@@ -27,6 +27,10 @@ export default function UserHome() {
 
     const tokenLogin = Cookies.getCookie('token-todo-api');
 
+    useEffect(() => {
+        window.document.title = 'My Todos'
+    }, [])
+
     async function getDataUser() {
         const { url, options } = getAllDataTodo({
             token: tokenLogin!,
@@ -89,7 +93,10 @@ export default function UserHome() {
             userId: dataContext.dados.id,
             id,
             token: tokenLogin!,
-            todo
+            todo: {
+                ...todo,
+                user_id: dataContext.dados.id,
+            }
         })
 
         const sendData = await fetch(url, options)
@@ -102,14 +109,13 @@ export default function UserHome() {
     async function handleCompleteTodo(id: string, todo: iTodo) {
         await handleEditTodo(id, {
             ...todo,
-            complete: true,
+            complete: !todo.complete,
         })
     }
 
     async function openModalEdit(todo: iTodo) {
-        console.log(todo)
-        setTodoToEdit(todo); // Define a tarefa a ser editada
-        setShowModal(true);  // Exibe o modal
+        setTodoToEdit(todo)
+        setShowModal(true);  
     }
 
     useEffect(() => {
@@ -141,7 +147,15 @@ export default function UserHome() {
                     </section>
                 </div>
             </div>
-            {showModal && todoToEdit && <ModalEditTodo changeModal={setShowModal} currentTodo={todoToEdit} />} 
+            {
+                showModal && todoToEdit && 
+                <ModalEditTodo 
+                    changeModal={setShowModal} 
+                    currentTodo={todoToEdit} 
+                    setCurrentTodo={setTodoToEdit} 
+                    handleEditTodo={handleEditTodo}
+                />
+            } 
         </>
     )
 }

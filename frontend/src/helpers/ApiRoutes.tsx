@@ -105,7 +105,7 @@ export function modifyDataTodo({ userId, id, token, todo }: iModifyTodo) {
         "Content-Type": "application/json",
         "authorization": `${token}`
       },
+      body: JSON.stringify(todo),
     },
-    body: JSON.stringify(todo),
   }
 }
