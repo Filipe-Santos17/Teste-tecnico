@@ -21,13 +21,11 @@ const useFetch = () => {
       json = await response.json();
 
       if (!response.ok) {
-        if (json && json.msg) {
-          setErro(json.msg)
+        if (json && (json as any).msg) {
+          setErro((json as any).msg)
         }
       }
     } catch (err) {
-      json = undefined;
-      
       if (err instanceof Error) {
         if( err.message === "Failed to fetch") err.message = "Servidor Fora do Ar"
         setErro(err.message);
