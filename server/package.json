@@ -2,8 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
+  "imports": {
+    "@/*": "./dist/*"
+  },
   "scripts": {
+    "start": "node build/src/index.js",
     "dev": "tsx watch src/index.ts",
+    "build": "tsc && tsup src --env.NODE_ENV production --out-dir build --tsconfig tsconfig.json",
     "test:unit": "vitest --dir src/tests/unit",
     "test:e2e": "vitest run --dir src/tests/e2e",
     "knex": "node --no-warnings --import tsx ./node_modules/.bin/knex"
@@ -35,6 +40,7 @@
     "@types/supertest": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.6",
     "supertest": "^7.0.0",
+    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.2.4",
     "tsx": "^4.18.0",
     "typescript": "^5.5.4",
