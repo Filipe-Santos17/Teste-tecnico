@@ -4,7 +4,7 @@
 
 /* Login */
 .form-login{
-  @apply h-max bg-white border border-gray60 rounded-lg flex flex-col gap-4 w-[428px] p-8;
+  @apply h-max bg-white border border-gray60 rounded-lg flex flex-col gap-4 w-[428px] p-8 md:w-[80%];
   box-shadow: 0px, 24px, 32px, #d2d7dd40;
 }
 

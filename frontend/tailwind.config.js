@@ -25,6 +25,13 @@ export default {
         darkNeutral: '#121212',
         modalBg:'#20212C30',
       },
+      screens: {
+        xl: { max: '1920px' },
+        lg: { max: '1440px' },
+        md2: { max: '1280px' },
+        md: { max: '1024px' },
+        sm: { max: '600px' },
+      },
     },
   },
   plugins: [],

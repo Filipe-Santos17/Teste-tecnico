@@ -38,7 +38,7 @@ export default function LoginUser() {
         if (json.token) {
           cookies.setCookie('token-todo-api', json.token)
           cookies.setCookie('token-todo-user', JSON.stringify(json.user))
-          navigate('/user')
+          setTimeout(() => navigate('/user'), 2000) //Tempo de espera garante o salvamento do token
         }
       }
     }

@@ -6,7 +6,7 @@ import { iTodo } from "@/@types/dataJson";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import InputBox from "@/components/generics/InputBox";
-import Button from "../generics/Button";
+import Button from "@/components/generics/Button";
 
 export default function ModalEditTodo({ changeModal, currentTodo, setCurrentTodo, handleEditTodo }: TypeChangeModalState) {
     function ToogleModal() {

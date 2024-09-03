@@ -21,3 +21,10 @@ export type TypeChangeModalState = {
   setCurrentTodo: React.Dispatch<React.SetStateAction<iTodo | null>>
   handleEditTodo(id: string, todo: iTodo): Promise<void>
 }
+
+export type iItemTodo = {
+  todo: iTodo,
+  handleDeleteTodo: (id: string) => void,
+  handleCompleteTodo: (id: string, todo: iTodo) => void,
+  openModalEdit: (todo: iTodo) => void,
+}

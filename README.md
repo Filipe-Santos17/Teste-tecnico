@@ -1,13 +1,36 @@
 # Teste-tecnico
 Desafio: Criar uma Aplicação de Gerenciamento de Tarefas que permita aos usuários gerenciar suas tarefas. A aplicação deve ter funcionalidades de criação, leitura, atualização e exclusão (CRUD) de tarefas. 
 
+## :four_leaf_clover: Technologies used
+
+Este projeto foi desenvolvido com as seguintes tecnologias:
+
+### Frontend:
+-   [TypeScript](https://www.typescriptlang.org/docs/)
+-   [ReactJS](https://reactjs.org/)
+-   [React-Router-Dom](https://reactrouter.com/en/main)
+-   [Tailwindcss](https://tailwindcss.com/)
+
+### Backend:
+-   [NodeJs](https://nodejs.org/en)
+-   [Express](https://expressjs.com/pt-br/)
+-   [Json Web Token](https://jwt.io/)
+-   [Cors](https://www.npmjs.com/package/cors?activeTab=readme)
+-   [Bcrypt](https://www.npmjs.com/package/bcrypt)
+-   [Knex](https://knexjs.org/)
+-   [Zod](https://zod.dev/)
+-   [Helmet](https://www.npmjs.com/package/helmet)
+-   [Dotenv](https://www.npmjs.com/package/dotenv)
+-   [MySQL](https://www.mysql.com/)
+-   [VS Code](https://code.visualstudio.com/)
+
 ## Requisitos Funcionais
 ### Cadastro de Usuário:
 - [x] O usuário deve ser capaz de se cadastrar com e-mail e senha. 
 - [x] Implementar validação básica para e-mail e senha.
 
 ### Autenticação:
-- [] Implementar login e logout de usuários utilizando JWT (JSON Web Token). 
+- [x] Implementar login e logout de usuários utilizando JWT (JSON Web Token). 
 - [x] Apenas usuários autenticados devem ter acesso às funcionalidades de gerenciamento de tarefas.
 
 ### Gerenciamento de Tarefas: 
@@ -18,7 +41,7 @@ Desafio: Criar uma Aplicação de Gerenciamento de Tarefas que permita aos usuá
 - [x] Excluir uma tarefa.
 
 ### Interface de Usuário: 
-- [] A interface deve ser intuitiva e responsiva. 
+- [x] A interface deve ser intuitiva e responsiva. 
 - [x] Implementar a interface utilizando React. 
 - [x] Utilizar hooks do React para gerenciar estado e efeitos colaterais.
 
@@ -39,3 +62,41 @@ Desafio: Criar uma Aplicação de Gerenciamento de Tarefas que permita aos usuá
 
 ### Deploy: (Opcional): 
 - [] Fazer o deploy da aplicação em uma plataforma de sua escolha (Heroku, Vercel, etc.).
+
+
+## :rocket: Como executar o Codígo:
+
+Para clonar e executar o aplicativo, você precisa ter [Git](https://git-scm.com), [Node.js](https://nodejs.org/en) e [MySql](https://www.mysql.com/) instalados em sua máquina.
+
+```bash
+# Clone da aplicação.
+$ git clone https://github.com/Filipe-Santos17/Teste-tecnico
+
+# Abra a pasta.
+$ cd Teste-tecnico
+
+# Instale as dependencias.
+$ cd frontend ; npm install
+$ cd ..
+$ cd server ; npm install
+```
+
+Antes de executar o servidor, crie um arquivo env com o contéudo do arquivo .env.example, copie e cole o contéudo e escreva as respectivas respostas(ps: para facilitar deixei anotado algumas).
+
+Forneça o usuário (normalmente root) e  senha do seu servidor mysql local para que haja acesso ao banco de dados.
+
+``` bash
+# Execute o server 
+$ cd server ; npm run dev
+```
+
+``` bash
+# Execute o front (em outro terminal) 
+$ cd frontend ; npm run dev
+```
+
+Caso possua a extensão [Rest Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) você poderá executar o servidor utilizando o arquivo requests-tests.http
+
+Nota: A validação em 2 etapas não pode ser feita sem a conexão a um email, por isso não execute o CreateUserWithTwoFactory ou LoginWithTwoFactory
+
+Caso deseje executar os testes, copie o arquivo .env.example e crie um arquivo .env.test, garanta ter alterado o banco de dados para um banco de testes para evitar perda de dados

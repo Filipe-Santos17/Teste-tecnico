@@ -1,15 +1,21 @@
 import { FormEvent, useContext, useEffect, useState } from "react"
+
 import { iContext, iTodo } from "@/@types/dataJson";
+
 import { UserContext } from "@/components/Context";
-import { getAllDataTodo, createDataTodo, deleteTodo, modifyDataTodo } from "@/helpers/ApiRoutes"
-import useFetch from "@/hooks/useFetch"
-import CookiesWork from "@/utils/cookies";
 import ItemTodo from "@/components/todo/ItemTodo";
 import InputBox from "@/components/generics/InputBox";
 import Button from "@/components/generics/Button";
-import useForm from "@/hooks/useForm";
 import SpinLoader from "@/components/generics/SpinLoader";
 import ModalEditTodo from "@/components/todo/ModalEditTodo";
+import Header from "@/components/generics/Header";
+
+import { getAllDataTodo, createDataTodo, deleteTodo, modifyDataTodo } from "@/helpers/ApiRoutes"
+
+import useFetch from "@/hooks/useFetch"
+import useForm from "@/hooks/useForm";
+
+import CookiesWork from "@/utils/cookies";
 
 export default function UserHome() {
     const dataContext = useContext(UserContext) as iContext;
@@ -133,14 +139,15 @@ export default function UserHome() {
     return (
         <>
             <div className="w-screen h-screen flex items-center flex-col gap-4 bg-primary">
+                <Header/>
                 <h1 className="text-center font-bold text-4xl mt-12 text-white">My ToDos</h1>
-                <div className="w-2/3 min-h-fit max-h-[66%] p-2 mx-auto border rounded bg-white">
-                    <form className="flex gap-2 w-full mb-4" onSubmit={handleFormSubmit}>
+                <div className="w-2/3 min-h-fit max-h-[66%] p-2 mx-auto border rounded bg-white sm:w-[85%]">
+                    <form className="flex gap-2 w-full mb-4 sm:grid md:grid-cols-2" onSubmit={handleFormSubmit}>
                         <InputBox idName="title-input" minLength={3} labelName="Title" {...TitleTask} />
                         <InputBox idName="description-input" minLength={3} labelName="Description" {...DescriptionTask} />
-                        <Button content="Criar Task" btnStyle="!w-48 !text-xs !h-10 self-center" typeBtn="submit" />
+                        <Button content="Criar Task" btnStyle="!w-48 !text-xs !h-10 self-center md:!w-full" typeBtn="submit" />
                     </form>
-                    <section className="overflow-y-scroll max-h-[74%]">
+                    <section className="overflow-y-scroll max-h-[74%] sm:max-h-[60%]">
                         {dataTodo.map(todo => (
                             <ItemTodo todo={todo} key={todo.id} handleDeleteTodo={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} openModalEdit={openModalEdit} />
                         ))}

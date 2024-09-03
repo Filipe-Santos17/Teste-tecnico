@@ -10,7 +10,7 @@ content-type: application/json
 
 {
     "name": "filipe", 
-    "email": "filipemas@gmail.com", 
+    "email": "filipema@gmail.com", 
     "password": "Test123@"
 }
 
@@ -21,7 +21,7 @@ content-type: application/json
 
 {
     "name": "filipe marques", 
-    "email": "filipemard@gmail.com", 
+    "email": "filipema@gmail.com", 
     "password": "Test123@##",
     "two_factory": true
 }
@@ -42,7 +42,7 @@ POST {{URL}}login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "filipemas@gmail.com", 
+    "email": "filipema@gmail.com", 
     "password": "Test123@"
 }
 
@@ -52,7 +52,7 @@ POST {{URL}}login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "filipemard@gmail.com", 
+    "email": "filipema@gmail.com", 
     "password": "Test123@##"
 }
 
@@ -62,7 +62,7 @@ POST {{URL}}login/second-step HTTP/1.1
 content-type: application/json
 
 {
-    "email": "filipemard@gmail.com", 
+    "email": "filipema@gmail.com", 
     "hash": 570828
 }
 
@@ -74,7 +74,7 @@ Authorization: {{TOKEN}}
 
 ###
 # @name GetOneTodo
-GET {{URL}}todos/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+GET {{URL}}todos/{{USER_ID}}/id_todo HTTP/1.1
 content-type: application/json
 Authorization: {{TOKEN}}
 
@@ -93,7 +93,7 @@ Authorization: {{TOKEN}}
 
 ###
 # @name ModifyTodo
-PUT {{URL}}todos/modify/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+PUT {{URL}}todos/modify/{{USER_ID}}/id_todo HTTP/1.1
 content-type: application/json
 Authorization: {{TOKEN}}
 
@@ -105,6 +105,6 @@ Authorization: {{TOKEN}}
 
 ###
 # @name DeleteTodo
-DELETE  {{URL}}todos/delete/{{USER_ID}}/1d0985f3-e424-4750-89b1-e591566c245c HTTP/1.1
+DELETE  {{URL}}todos/delete/{{USER_ID}}/id_todo HTTP/1.1
 content-type: application/json
 Authorization: {{TOKEN}}
