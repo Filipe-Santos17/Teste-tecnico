@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express"
-import { env } from "@/env";
+import { env } from "../../env";
 
 export function validUserJWTToken(req: Request, res: Response, next: NextFunction){
     const token = req.headers["authorization"];

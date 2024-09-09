@@ -2,13 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "imports": {
-    "@/*": "./dist/*"
-  },
   "scripts": {
     "start": "node build/src/index.js",
     "dev": "tsx watch src/index.ts",
-    "build": "tsc && tsup src --env.NODE_ENV production --out-dir build --tsconfig tsconfig.json",
+    "build": "tsc",
     "test:unit": "vitest --dir src/tests/unit",
     "test:e2e": "vitest run --dir src/tests/e2e",
     "knex": "node --no-warnings --import tsx ./node_modules/.bin/knex"

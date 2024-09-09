@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { Request, Response, NextFunction } from "express"
-import regexPassword from "@/utils/regexPassword"
+import regexPassword from "../../utils/regexPassword"
 
 const validateUserLoginInfo = z.object({
     email: z.string().email(),

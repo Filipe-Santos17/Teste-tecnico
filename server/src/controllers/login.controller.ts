@@ -1,14 +1,13 @@
 import { Request, Response } from "express"
-import { db } from "@/database/connect";
 import bcrypt from "bcrypt"
-import { sendEmail } from "@/utils/sendEmails";
 import { randomUUID } from "crypto";
-import { generateAleatoryHash } from "@/utils/generateAleatoryHash";
-import calculateDiffDate from "@/utils/calculateDiffDate";
-import { validDataLogin, validDataLoginSecondStep } from "@/middlewares/pipes/loginPipe";
-import { generateToken } from "@/utils/generateToken";
-import { env } from "@/env";
-import jwt from "jsonwebtoken";
+
+import { db } from "../database/connect";
+import { sendEmail } from "../utils/sendEmails";
+import { generateAleatoryHash } from "../utils/generateAleatoryHash";
+import calculateDiffDate from "../utils/calculateDiffDate";
+import { validDataLogin, validDataLoginSecondStep } from "../middlewares/pipes/loginPipe";
+import { generateToken } from "../utils/generateToken";
 
 export default {
     async loginUser(req: Request, res: Response) {

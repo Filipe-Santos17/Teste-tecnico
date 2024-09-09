@@ -9,7 +9,7 @@ import Button from "@/components/generics/Button"
 import ErroMsg from "@/components/generics/ErrorMsg"
 
 import { loginUser } from "@/helpers/ApiRoutes"
-import CookiesWork from "@/utils/cookies"
+import CookiesWork from "../../utils/cookies"
 import { iDataJsonLogin } from "@/@types/dataJson"
 
 export default function LoginUser() {

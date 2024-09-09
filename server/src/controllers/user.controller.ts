@@ -1,8 +1,9 @@
-import { db } from "@/database/connect";
-import bcrypt from "bcrypt"
 import { Request, Response } from "express"
+import bcrypt from "bcrypt"
 import { randomUUID } from "node:crypto";
-import { userType } from "@/middlewares/pipes/userPipe";
+
+import { db } from "../database/connect";
+import { userType } from "../middlewares/pipes/userPipe";
 
 export default {
     async createUser(req: Request, res: Response){

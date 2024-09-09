@@ -15,7 +15,7 @@ import { getAllDataTodo, createDataTodo, deleteTodo, modifyDataTodo } from "@/he
 import useFetch from "@/hooks/useFetch"
 import useForm from "@/hooks/useForm";
 
-import CookiesWork from "@/utils/cookies";
+import CookiesWork from '../utils/cookies';
 
 export default function UserHome() {
     const dataContext = useContext(UserContext) as iContext;

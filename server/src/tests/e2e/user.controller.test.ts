@@ -1,10 +1,10 @@
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { execSync } from "node:child_process";
-import app from "@/app";
-import { db } from "@/database/connect";
-import { env } from "@/env";
 import request from "supertest";
-import bcrypt from "bcrypt"
+
+import app from "../../app";
+import { db } from "../../database/connect";
+import { env } from "../../env";
 
 describe("User Testes", () => {
     beforeAll(() => {

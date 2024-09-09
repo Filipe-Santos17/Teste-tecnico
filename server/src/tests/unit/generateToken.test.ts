@@ -1,4 +1,4 @@
-import { generateToken } from "@/utils/generateToken";
+import { generateToken } from "../../utils/generateToken";
 import { describe, expect, test } from "vitest";
 
 describe("Generate Token", () => {

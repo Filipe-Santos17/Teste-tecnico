@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === "test") {
 const zodSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   DB_USER: z.string(),
+  PATH_PRODUCTION: z.string(),
   DB_PASSWORD: z.string(),
   DB_HOST: z.string(),
   DB_PORT: z.coerce.number().default(5432),

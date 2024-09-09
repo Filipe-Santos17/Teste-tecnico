@@ -1,4 +1,4 @@
-import { generateAleatoryHash } from "@/utils/generateAleatoryHash";
+import { generateAleatoryHash } from "../../utils/generateAleatoryHash";
 import { describe, expect, test } from "vitest";
 
 describe("Generate Aleatory Hash test", () => {

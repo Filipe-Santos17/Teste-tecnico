@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, createContext, ReactElement } from 'r
 
 import { validUser } from "@/helpers/ApiRoutes";
 
-import CookiesWork from '@/utils/cookies';
+import CookiesWork from '../utils/cookies';
 
 import useFetch from '@/hooks/useFetch';
 

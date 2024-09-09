@@ -1,7 +1,8 @@
-import { db } from "@/database/connect";
-import { todoParam, todoType } from "@/middlewares/pipes/todoPipe";
 import { Request, Response } from "express"
 import { randomUUID } from "node:crypto";
+
+import { db } from "../database/connect";
+import { todoParam, todoType } from "../middlewares/pipes/todoPipe";
 
 export default {
     async getAllTodos(req: Request, res: Response) {
